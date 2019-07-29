@@ -529,6 +529,7 @@ All parameter, weight, gradient are variables in Paddle.
 
   py::class_<framework::ReaderHolder>(m, "Reader", "")
       .def("start", &framework::ReaderHolder::Start)
+      .def("read", &framework::ReaderHolder::Read)
       .def("reset", &framework::ReaderHolder::ResetAll);
 
   using LoDTensorBlockingQueue =

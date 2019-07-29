@@ -104,6 +104,11 @@ class ReaderHolder {
     PADDLE_ENFORCE_NOT_NULL(reader_);
     reader_->ReadNext(out);
   }
+  void Read() {
+    PADDLE_ENFORCE_NOT_NULL(reader_);
+    std::vector<LoDTensor> out;
+    reader_->ReadNext(&out);
+  }
 
   void ResetAll() {
     auto end_readers = reader_->GetEndPoints();

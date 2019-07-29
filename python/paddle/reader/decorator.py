@@ -257,6 +257,7 @@ def xmap_readers(mapper, reader, process_num, buffer_size, order=False):
     :return: the decarated reader
     :rtype: callable
     """
+    print("### XMP_READER ###")
     end = XmapEndSignal()
 
     # define a worker to read samples from reader to in_queue
@@ -300,6 +301,7 @@ def xmap_readers(mapper, reader, process_num, buffer_size, order=False):
         out_queue.put(end)
 
     def xreader():
+        print("### xreader ###")
         in_queue = Queue(buffer_size)
         out_queue = Queue(buffer_size)
         out_order = [0]

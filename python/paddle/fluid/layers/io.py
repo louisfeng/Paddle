@@ -310,7 +310,11 @@ def monkey_patch_reader_methods(reader):
     def reset():
         return __get_reader__().reset()
 
+    def read():
+        return __get_reader__().read()
+
     reader.reset = reset
+    reader.read = read
     reader.stop_gradient = True
     reader.persistable = True
     return reader
@@ -557,6 +561,7 @@ def _py_reader(capacity,
     # monkey patch py_reader special methods
     reader.queue = feed_queue
     current_reset_method = reader.reset
+    current_read_method = reader.read
     reader.thread = None
     reader.tensor_provider = None
     reader.exited = False
@@ -622,10 +627,14 @@ def _py_reader(capacity,
             reader.thread.join()
             reader.exited = False
 
+    def __read__():
+        current_read_method()
+
     def __start__():
         start_provide_thread(reader.tensor_provider)
 
     reader.reset = __reset__
+    reader.read = __reset__
     reader.decorate_tensor_provider = __set_tensor_provider__
     reader.decorate_paddle_reader = __set_paddle_reader__
     reader.start = __start__
